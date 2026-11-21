@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script src="/Assets/jquery-3.3.1.min.js"></script>
+		<script src="/Assets/UploadRequest.js"></script>
+		
+		<script type="text/javascript">
+			function sendButtonClick(evt)
+			{
+				var files = document.getElementById('fileToSend').files;
+					
+				if (files.length)
+				{
+					var file = files[0];
+					fileName = document.getElementById('path').value + file.name;
+					var fileReader = new FileReader();
+					fileReader.onloadend = fileReaderLoadEnd;
+					fileReader.readAsArrayBuffer(file);
+					console.log("Rozpoczynam ladowanie pliku " + file.name);
+				}
+			}
+			
+			function fileReaderLoadEnd(evt)
+			{
+				if (evt.target.readyState == FileReader.DONE)
+				{
+					UploadRequest.begin(fileName, evt.target.result, uploadRequestSuccess, uploadRequestError, uploadRequestProgress);
+				}
+				else
+				{
+					alert('Nie udalo sie zaladowac pliku');
+					fileName = null;
+				}
+			}
+			
+			function uploadRequestSuccess()
+			{
+				alert('Udalo sie przeslac plik na serwer');
+				progress.innerHTML = "";
+				fileName = null;
+			}
+			
+			function uploadRequestError(errorString)
+			{
+				switch(errorString)
+				{
+					case "1":
+						alert('Nie udalo sia przeslac pliku. Nie mozna rozpoczac upload\'u pliku');
+						break;
+						
+					case "2":
+						alert('Nie udalo sie przeslac pliku. Brakuje argumentow zadania');
+						break;
+						
+					case "3":
+						alert('Nie udalo sie przeslac pliku. Nie przeslano wszystkich czesci pliku');
+						break;
+						
+					case "4":
+						alert('Nie udalo sie przeslac pliku. Operacja zablokowana');
+						break;
+						
+					case "101":
+						alert('Nie udalo sie przeslac pliku. Nieznany blad');
+						break;
+				}
+				
+				progress.innerHTML = "";
+				fileName = null;
+			}
+			
+			function uploadRequestProgress(bytesSent, bytesAll)
+			{
+				var newHTML = "Wyslano ";
+				newHTML += bytesSent;
+				newHTML += "/";
+				newHTML += bytesAll;
+				newHTML += " bajtow"
+				progress.innerHTML = newHTML;
+			}
+		
+		
+		
+			var progress;
+			var fileName;
+		
+		
+		
+			$( document ).ready(function()
+			{
+				if ( !(window.File && window.FileReader && window.FileList && window.Blob) )
+					alert('Obsluga plikow nie jest wspierana w tej przegladarce');
+				
+				document.getElementById('sendButton').addEventListener('click', sendButtonClick);
+				progress = document.getElementById("progress");
+				fileName = null;
+			});
+		
+		</script>
+	</head>
+	<body>
+		<p>Wybierz plik do przeslania</p>
+		<input type="file" id="fileToSend"/>
+		<p>Wpisz sciezke do ktorej ma zostac zapisany</p>
+		<input type="text" id="path" value="/">
+		<button id="sendButton">Przeslij</button>
+		<p id="progress"></p>
+	</body>
+</html>

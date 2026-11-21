@@ -1,0 +1,75 @@
+<script type="text/javascript">
+	function initSetTime()
+	{
+		$('#setTimeButton').click(function()
+		{
+			let timeToSet = $('#setTimeDate')[0].value;
+			timeToSet += 'T';
+			timeToSet += $('#setTimeTime')[0].value.replace(/:/g, '-');
+			timeToSet = timeToSet.substring(0, timeToSet.length - 3);
+			
+			let urlString = '/set-time?datetime=';
+			urlString += timeToSet;
+			
+			$.ajax(
+			{
+				url : urlString,
+				type : 'GET',
+				dataType : 'text',
+				success : function(text)
+				{
+					let lines = text.split(/\n/);
+					if(lines[0] == "Error")
+					{
+						Metro.dialog.create(
+						{
+							title: 'Warning<span class="mif-warning mif-5x fg-yellow place-right"></span>',
+							content: '<div>Time has not changed</div>'
+						});
+						
+						return;
+					}
+				
+					Metro.dialog.create(
+					{
+						title: 'Success<span class="mif-checkmark mif-5x fg-green place-right"></span>',
+						content: '<div>Time has changed</div>'
+					});
+				},
+				error : function()
+				{
+					Metro.dialog.create(
+					{
+						title: 'Warning<span class="mif-warning mif-5x fg-yellow place-right"></span>',
+						content: '<div>Time has not changed</div>'
+					});
+				}
+			});
+		});
+	}
+	
+	function showSetTime()
+	{
+		
+	}
+</script>
+<div class="row">
+	<div class="cell-fs-full cell-md-3">
+		<input id="setTimeDate" data-role="datepicker" data-distance="2" data-ok-button-icon="<span class='mif-checkmark fg-green'></span>" data-cancel-button-icon="<span class='mif-cross fg-red'></span>">
+	</div>
+	<div class="cell-fs-full d-none-md" style="height: 16px"></div>
+	<div class="cell-fs-full cell-md-3">
+		<input id="setTimeTime" data-role="timepicker" data-distance="2" data-ok-button-icon="<span class='mif-checkmark fg-green'></span>" data-cancel-button-icon="<span class='mif-cross fg-red'></span>">
+	</div>
+	<div class="cell-fs-full d-none-md" style="height: 16px"></div>
+	<div class="cell-fs-full cell-md-3">
+		<button id="setTimeButton" class="button" style="width: 180px; height: 40px"><span class="mif-chevron-thin-right mif-3x fg-orange" style="vertical-align: unset; top: -5px"></span><h3 style="display: inline; position: relative; top: -7px">Set</h2></button>
+	</div>
+</div>
+<script type="text/javascript">
+	setTimeout(function()
+	{
+		ContentBodyManager.contentBodyReady();
+	},
+	100);
+</script>

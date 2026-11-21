@@ -1,0 +1,1 @@
+Backup przed dodaniem kompensacji bezw³adnoœci
