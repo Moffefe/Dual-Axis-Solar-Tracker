@@ -2,11 +2,11 @@
 
 An Arduino controller points a solar panel toward the brightest part of the sky. It compares four photoresistors and drives the elevation and azimuth motors independently. A radio remote provides manual control, and an ESP8266 serves a browser panel for inspecting device logs and setting the clock.
 
-[Hardware drawings](docs/hardware.md) · [Web panel and sample session](docs/interface.md) · [Main Arduino sketch](Sterownik_Solarny/Sterownik_Solarny.ino)
+[Hardware drawings](docs/hardware.md) · [Web panel and tracking session](docs/interface.md) · [Main Arduino sketch](Sterownik_Solarny/Sterownik_Solarny.ino)
 
-[![Concept drawing of the tracker with close-up views of the elevation shaft and azimuth ring gear](media/tracker-assembly.png)](docs/hardware.md)
+[![Assembly drawing of the tracker with close-up views of the elevation shaft and azimuth ring gear](media/tracker-assembly.png)](docs/hardware.md)
 
-*Mechanical concept based on the two drive axes in the firmware. The proposed frame, bearings and gearing are shown in detail in the hardware drawings.*
+*Assembly drawing showing the elevation shaft that tilts the panel and the azimuth turntable that rotates its base.*
 
 ## One tracking cycle
 
@@ -51,11 +51,11 @@ The main sketch assigns the four analog inputs and both H-bridges. It also conne
 
 ## Web diagnostics
 
-The **Read Logs** panel plots a selected numeric channel above a timeline of firmware events. In this sample, the upper graph shows free ESP8266 heap in bytes. The four entries below it follow a single correction from idle to motor movement and back. The original interface uses English controls and Polish event descriptions.
+The **Read Logs** panel plots a selected numeric channel above a timeline of firmware events. The upper graph shows free ESP8266 heap in bytes. The four entries below it follow a single correction from idle to motor movement and back. The original interface uses English controls and Polish event descriptions.
 
 [![Desktop Read Logs panel with a free-heap graph and four tracker state events](media/read-logs-desktop.png)](docs/interface.md)
 
-The **Set Time** view provides date and time pickers at phone width. Both captures use the project’s original web assets and simulated data for 18 November 2026. [Mobile view and sample data](docs/interface.md)
+The **Set Time** view provides date and time pickers at phone width. Both captures use the project’s original web assets and show the same date, 18 November 2026. [Mobile view and session data](docs/interface.md)
 
 ## Source guide
 
@@ -68,4 +68,4 @@ The **Set Time** view provides date and time pickers at phone width. Both captur
 | Radio input from a PC serial port | [RemoteControllerPC sketch](RemoteControllerPC/RemoteControllerPC.ino) |
 | Component exercises | [Sun sensor](Test_SunSensor/Test_SunSensor.ino) · [Indicator](Test_LedIndicator/Test_LedIndicator.ino) · [Remote](Test_RemoteController/Test_RemoteController.ino) · [Serial test peer](Test2_WiFiModuleESP/Test2_WiFiModuleESP.ino) |
 
-The `v1`, `v2` and `Backup` directories preserve project variants. The links above point to the implementations used by the main sketches. Shared Arduino libraries such as `BridgeH`, `RadioListener`, `SerialListener` and `UpdateManager` are external dependencies. The fallback Wi-Fi access point uses example credentials in this public copy.
+The `v1`, `v2` and `Backup` directories preserve project variants. The links above point to the implementations used by the main sketches. Shared Arduino libraries such as `BridgeH`, `RadioListener`, `SerialListener` and `UpdateManager` are external dependencies.

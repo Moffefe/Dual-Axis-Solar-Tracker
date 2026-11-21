@@ -132,7 +132,7 @@ void ConnectTask::CreateApProcedure()
 	if (bitRead(updateInfo.data_1, sizeof(updateInfo.data_1) * 8 - 1))
 	{
 		String tempString_1;
-		tempString_1 += F("DEMO_TRACKER_AP");
+		tempString_1 += F("TRACKER_SETUP_AP");
 		WiFi.mode(WIFI_AP_STA);
 		WiFi.softAP(tempString_1.c_str(), "SET_AP_PASSWORD", apChannel.toInt());
 		updateInfo.time_1 = millis() + 2000;
